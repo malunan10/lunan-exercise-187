@@ -1,0 +1,162 @@
+//AUTHOR: Megan Lunan
+//COURSE: CPT 187
+//PURPOSE: Creates user accounts: username and passwords. Validates user's login information to confirm if an account exists or not, and that confirms user input matches account details.
+//CREATEDATE: 20210420
+
+package edu.cpt187.lunan.exercise6a;
+//import scanner
+import java.util.Scanner;
+//import file read
+import java.io.FileInputStream;
+//import print writer
+import java.io.PrintWriter;
+//import file writer
+import java.io.FileWriter;
+//import exception
+import java.io.IOException;
+
+//start of user accounts
+public class UserAccounts 
+{
+	private final int NOT_FOUND = -1;
+	private final int RESET_VALUE = 0;
+	private final int MAXIMUM_RECORDS = 50;
+
+	private String[] userNames = new String[MAXIMUM_RECORDS];
+	private String[] passwords = new String[MAXIMUM_RECORDS];
+	private String masterFileName = "";
+	private int recordCount = 0;
+	private int searchedIndex = 0;
+
+	//constructor
+	public UserAccounts(String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}//END OF constructor
+
+	//start of set user account arrays
+	public void setUserAccountArrays()
+	{
+		//start of file read
+		try
+		{
+			Scanner infile = new Scanner (new FileInputStream(masterFileName));
+
+			recordCount = RESET_VALUE;
+
+			//start of while for import of data elements
+			while (infile.hasNext() == true && recordCount < MAXIMUM_RECORDS)
+			{
+				userNames[recordCount] = infile.next();
+				passwords[recordCount] = infile.next();
+				recordCount++;
+
+			}//END OF while import
+			//close Scanner
+			infile.close();
+		}//END OF try
+		//start of catch
+		catch (IOException ex)
+		{
+			recordCount = NOT_FOUND;
+		}//END OF catch
+	}//END OF set user account arrays
+
+	//start of set search index
+	public void setSearchedIndex(String borrowedUserName)
+	{
+		searchedIndex = getSeqSearch(borrowedUserName);
+	}//END OF set search index
+
+	//start of set search index
+	public void setSearchedIndex(String borrowedUserName, String borrowedPassword)
+	{
+		searchedIndex = getSeqSearch(borrowedUserName);
+
+		//start test search index greater equal to reset value and password not match
+		if (searchedIndex >= RESET_VALUE && getPasswordMatch(borrowedPassword) == false)//use case matching from whatever lesson
+		{
+			searchedIndex = NOT_FOUND; 
+		}//END OF test search index greater equal to reset value and password not match
+	}//END OF set search index
+
+	//start write user account file
+	public void setWriteOneRecord(String borrowedBorrowedUserName, String borrowedPassword)
+	{
+		//start of write file
+		try
+		{
+			PrintWriter fileUserAccount = new PrintWriter (new FileWriter(masterFileName, true));
+
+			fileUserAccount.printf("%n%s\t%s", borrowedBorrowedUserName, borrowedPassword);
+
+			fileUserAccount.close();
+
+			recordCount++;
+		}//END OF try
+		//start catch
+		catch (IOException ex)
+		{
+			recordCount = NOT_FOUND;
+		}//END OF catch
+	}//END OF write user account file
+
+
+	//GETTERS
+	//start get file found flag
+	public int getSeqSearch(String borrowedBorrowedUserName)
+	{
+		int localIndex = 0;
+		int localFound = NOT_FOUND;
+
+		//start while for search array
+		while (localIndex < recordCount)
+		{
+			//start test for id equal to local index
+			if (userNames[localIndex].equalsIgnoreCase(borrowedBorrowedUserName))
+			{
+				localFound = localIndex;
+				localIndex = recordCount;
+
+				searchedIndex++;
+
+			}//END OF test for id equal to local index
+			//start else
+			else
+			{
+				localIndex++;
+			}//END OF else
+		}//END OF while for search array
+		return localFound; 
+	}//END OF file found flag
+
+	//start get password match
+	public boolean getPasswordMatch(String borrowedBorrowedPassword)
+	{
+		return passwords[searchedIndex].equals(borrowedBorrowedPassword);
+	}//END OF get password match
+
+	//start get file name
+	public String getFileNames()
+	{
+		return masterFileName;
+	}//END OF get file name
+
+	//start get max records
+	public int getMaximumRecords()
+	{
+		return MAXIMUM_RECORDS;
+	}//END OF get max records
+
+	//start get record count
+	public int getRecordCount()
+	{
+		return recordCount;
+	}//END OF get record count
+
+	//start get search index
+	public int getSearchedIndex()
+	{
+		return searchedIndex;
+	}//END OF get search index
+}//END OF user accounts
