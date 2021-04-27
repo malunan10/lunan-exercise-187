@@ -1,0 +1,71 @@
+//AUTHOR: Megan Lunan
+//COURSE: CPT 187
+//PURPOSE: Creates and writes order details: item names, prices, IDs, quantities and total costs to a reference file for orders.
+//CREATEDATE: 20210420
+
+
+package edu.cpt187.lunan.exercise6a;
+
+//import print writer
+import java.io.PrintWriter;
+//import file writer
+import java.io.FileWriter;
+//import exception
+import java.io.IOException;
+
+
+//start of write order class
+public class WriteOrder 
+{
+	//class variables
+	private boolean fileFoundFlag = false;
+	private String masterFileName = "";
+	private int recordCount = 0;
+
+	//constructor
+	public WriteOrder(String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}//END OF constructor
+
+	//start of write order
+	public void setWriteOrder(int borrowedItemID, String borroedItemName, double borrowedItemPrice, int borrowedQuantity, double borrowedOrderCost)
+	{
+		//start of write file
+		try
+		{
+			PrintWriter filePW = new PrintWriter (new FileWriter(masterFileName, true));
+
+			filePW.printf("%n%d\t%s\t%f\t%d\t%f", borrowedItemID, borroedItemName, borrowedItemPrice, borrowedQuantity, borrowedOrderCost);
+
+			fileFoundFlag = true;
+
+			filePW.close();
+
+			recordCount++;
+		}//END OF try
+		//start catch
+		catch (IOException ex)
+		{
+			fileFoundFlag = false;
+		}//END OF catch
+	}//END OF write order
+
+	//start get file found flag
+	public boolean getFileFoundFlag()
+	{
+		return fileFoundFlag;
+	}//END OF file found flag
+
+	//start get file name
+	public String getFileName()
+	{
+		return masterFileName;
+	}//END OF file name
+
+	//start get record count
+	public int getRecordCount()
+	{
+		return recordCount;
+	}//END OF record count
+}//END OF write order class
