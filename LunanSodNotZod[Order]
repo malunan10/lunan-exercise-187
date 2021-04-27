@@ -1,0 +1,179 @@
+//AUTHOR: Megan Lunan
+//COURSE: CPT 187
+//PURPOSE: Class loads an inventory file with items, prices, item number, and inventory counts. Discount options & rates are tracked. Prizes are generated randomly.
+//CREATEDATE: 20210420
+
+package edu.cpt187.lunan.exercise6a;
+
+//start of order class
+public class Order 
+{
+	//order constants
+	private final double TAX_RATE = .075;
+
+	//order variables
+	private int discountType = 0;
+	private int itemID = 0;
+	private String itemName = "";
+	private double itemPrice = 0.0;
+	private String discountName = "";
+	private double discountRate = 0.0;
+	private int howMany = 0;
+	private String prizeName = "";
+	private int lastItemSelectedIndex = 0;
+
+	//default constructor
+	public Order()
+	{
+
+	}//END OF default constructor
+
+
+	//SETTERS
+	//start of set item selection 
+	public void setLastItemSelectedIndex(int borrowedSearchIndex)
+	{
+		lastItemSelectedIndex = borrowedSearchIndex;
+	}//END OF set item selection 
+
+	//start of set item id
+	public void setItemID(int[] borrowedItemIDs)
+	{
+		itemID = borrowedItemIDs[lastItemSelectedIndex];
+	}//END OF set item id
+
+	//start of set item name
+	public void setItemName(String[] borrowedItemNames)
+	{
+		itemName = borrowedItemNames[lastItemSelectedIndex];
+	}//END OF set item name
+
+	//start of set item price
+	public void setItemPrice(double[] borrowedItemPrices)
+	{
+		itemPrice = borrowedItemPrices[lastItemSelectedIndex];
+	}//END OF set item price
+
+	//start of set how many
+	public void setHowMany(String borrowedHowMany)
+	{
+		howMany = Integer.parseInt(borrowedHowMany);
+	}//END OF set how many
+
+	//start of set discount type
+	public void setDiscountType(char borrowedMenuSelection)
+	{
+		discountType = borrowedMenuSelection - 'A';
+	}//END OF set discount type
+
+	//start of set discount name
+	public void setDiscountName(String[] borrowedDiscountNames)
+	{
+		discountName = borrowedDiscountNames[discountType];
+	}//END OF set discount name
+
+	//start of set discount rate
+	public void setDiscountRate(double[] borrowedDiscountRate)
+	{
+		discountRate = borrowedDiscountRate[discountType];
+	}//END OF set discount rate
+
+	//start of set prize names
+	public void setPrizeName(String[] borrowedPrizeNames, int borrowedPrizeIndex)
+	{
+		prizeName = borrowedPrizeNames[borrowedPrizeIndex];
+	}//END OF set prize names
+
+	//start of set decrease stock
+	public void setDecreaseInStock(Inventory borroewedInventoryObject)
+	{
+		borroewedInventoryObject.setReduceStock(howMany);
+	}//END OF set decrease stock
+
+
+
+	//GETTERS
+	//start of get in stock counts based on last selection
+	public int getInStockCount(int[] borrowedInStockCounts)
+	{
+		return borrowedInStockCounts[lastItemSelectedIndex];
+	}//END OF get in stock counts based on last selection
+
+	//start of get item id
+	public int getItemID()
+	{
+		return itemID;
+	}//END OF get item id
+
+	//start of get item name
+	public String getItemName()
+	{
+		return itemName;
+	}//END OF get item name
+
+	//start of get item price
+	public double getItemPrice()
+	{
+		return itemPrice; 
+	}//END OF get item price
+
+	//start of get how many
+	public int getHowMany()
+	{
+		return howMany;
+	}//END OF get how many
+
+	//start of get discount name
+	public String getDiscountName()
+	{
+		return discountName;
+	}//END OF get discount name
+
+	//start of get discount rate
+	public double getDiscountRate()
+	{
+		return discountRate;
+	}//END OF get discount rate
+
+	//start of get discount amount
+	public double getDiscountAmt()
+	{
+		return (itemPrice * discountRate);
+	}//END OF get discount amount
+
+	//start of get discount price
+	public double getDiscountPrice()
+	{
+		return (itemPrice - getDiscountAmt());
+	}//END OF get discount price
+
+	//start of get sub total
+	public double getSubTotal()
+	{
+		return (getDiscountPrice() * howMany);
+	}//END OF get sub total
+
+	//start of get tax rate
+	public double getTaxRate()
+	{
+		return TAX_RATE;
+	}//END OF get tax rate
+
+	//start of get tax amount
+	public double getTaxAmt()
+	{
+		return (getSubTotal() * TAX_RATE);
+	}//END OF  get tax amount
+
+	//start of get total cost
+	public double getTotalCost()
+	{
+		return (getSubTotal() + getTaxAmt());
+	}//END OF get total cost
+
+	//start of get prize name
+	public String getPrizeName()
+	{
+		return prizeName;
+	}//END OF get prize name
+}//END OF order class
